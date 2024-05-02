@@ -1,34 +1,37 @@
 from bs4 import BeautifulSoup
-from .common import fetchSoup, CATOID
+from .common import fetchSoup
 
+def proccessCoreSoup(soup):
+    # TODO more than h3 and h4 headers contain courses?
+    # Try to find header on acaolog-core element
+    h = soup.find('h3')
+    if h is None:  # acalog-core can either be an h3 or h4 element, they both hold acaolog-course elements
+        h = soup.find('h4')
 
-def getCores(poid: str):
+    if h is not None:
+        name = h.text
+        id = h.find_all("a")[1]['id']
+
+        # "Concentrations Header" and other headers that contain no ul need to be filtered out.
+        courses = soup.find_all("li", class_=["acalog-course", "acalog-adhoc-list-item"])
+
+        if courses != []:
+            return id, name, courses
+
+def fetchCores(poid: str):
     """
     Create a list of cores (groupings of courses)
     :param poid: A program's ID
     :return: str, str, BeautifulSoup: Core ID, name, and bs4 object containing a list of courses
     """
-    url = f"http://catalog.blueridgectc.edu/preview_program.php?catoid={CATOID}&poid={poid}"
+    url = f"http://catalog.blueridgectc.edu/preview_program.php?poid={poid}"
     soup = fetchSoup(url, f"{poid}cores")  # FIXME
 
     for core in soup.find_all(class_="acalog-core"):
-        # TODO more than h3 and h4 headers contain courses?
-        # Try to find header on acaolog-core element
-        h = core.find('h3')
-        if h is None:  # acalog-core can either be an h3 or h4 element, they both hold acaolog-course elements
-            h = core.find('h4')
-
-        if h is not None:
-            name = h.text
-            id = h.find_all("a")[1]['id']
-
-            # "Concentrations Header" and other headers that contain no ul need to be filtered out.
-            courses = core.find_all("li")
-            if courses != []:
-                yield id, name, courses
+        yield proccessCoreSoup(core)
 
 
-def getCourses(ul: BeautifulSoup) -> []:
+def fetchCourses(ul: BeautifulSoup) -> []:
     """
     Get lists of courses from a soup unordered list of courses.FIXME
 
@@ -78,7 +81,7 @@ def getCourses(ul: BeautifulSoup) -> []:
         # Invalid il
         else:
             continue
-
+        # print(li, li.text.split())
         state = li.text.split()[-1]
 
         # Determine "OR"
@@ -109,14 +112,18 @@ def getCourses(ul: BeautifulSoup) -> []:
 
 # TODO for debug
 def fetchCore(poid, i):
-    for j, data in enumerate(getCores(poid)):
+    for j, data in enumerate(fetchCores(poid)):
         # print(data)
         if j == i:
             print(i)
-            return data[0], data[1], getCourses(data[2])
+            return data[0], data[1], fetchCourses(data[2])
 
 
 # Get list of cores pertaining to a program.
-def fetchCores(poid):
-    for id, name, course_soup in getCores(poid):
-        yield id, name, getCourses(course_soup)
+def getCores(poid):
+    for id, name, course_soup in fetchCores(poid):
+        yield (
+            id,
+            name,
+            fetchCourses(course_soup)
+        )
