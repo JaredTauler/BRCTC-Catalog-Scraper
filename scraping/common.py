@@ -34,7 +34,7 @@ import debugging
 #     )
 
 
-def getSoup(url, name):
+def fetchSoup(url, name):
     try:
         response = debugging.pickle_load(name)
     except:

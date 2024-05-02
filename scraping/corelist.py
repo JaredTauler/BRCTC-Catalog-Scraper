@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from .common import getSoup, CATOID
+from .common import fetchSoup, CATOID
 
 
 def getCores(poid: str):
@@ -9,7 +9,7 @@ def getCores(poid: str):
     :return: str, str, BeautifulSoup: Core ID, name, and bs4 object containing a list of courses
     """
     url = f"http://catalog.blueridgectc.edu/preview_program.php?catoid={CATOID}&poid={poid}"
-    soup = getSoup(url, f"{poid}cores")  # FIXME
+    soup = fetchSoup(url, f"{poid}cores")  # FIXME
 
     for core in soup.find_all(class_="acalog-core"):
         # TODO more than h3 and h4 headers contain courses?

@@ -1,4 +1,9 @@
-from .common import getSoup, CATOID, NAVOID
+from .common import fetchSoup, NAVOID
+
+
+def getSoup():
+    url = f"http://catalog.blueridgectc.edu/content.php?navoid={NAVOID}"
+    return fetchSoup(url, "program")
 
 
 def fetchPrograms():
@@ -7,13 +12,10 @@ def fetchPrograms():
 
     :return: poid, name
     """
-    url = f"http://catalog.blueridgectc.edu/content.php?navoid={NAVOID}"
-
-    soup = getSoup(url, "program")
+    soup = getSoup()
     program_lists = soup.find_all(class_="program-list")
 
-    found_programs = []
-    # Programs
+    found = []
     for program_list in program_lists:
         # Extract the <a> tags within each <ul>
         links = program_list.find_all('a')
@@ -26,4 +28,7 @@ def fetchPrograms():
             # Extract class name
             name = link.text.strip()
 
-            yield poid, name
+            found.append(
+                (poid, name)
+            )
+    return found

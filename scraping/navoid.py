@@ -1,4 +1,4 @@
-from .common import getSoup
+from .common import fetchSoup
 
 
 def fetchNAVOID():
@@ -10,7 +10,7 @@ def fetchNAVOID():
     """
     url = f"http://catalog.blueridgectc.edu/"
 
-    soup = getSoup(url, "navoid")
+    soup = fetchSoup(url, "navoid")
     nav = soup.find_all(id="acalog-navigation")[0]
 
     # check for the text program in each nav element

@@ -1,4 +1,4 @@
-from .common import getSoup, CATOID
+from .common import fetchSoup, CATOID
 
 
 # print(md.Course)
@@ -104,11 +104,13 @@ def getDesc(soup):
 
     return string
 
+def getSoup(coid):
+    url = f"http://catalog.blueridgectc.edu/ajax/preview_course.php?coid={coid}&show"
+    return fetchSoup(url, f"{coid}fetchcourse")
 
 # Get course details, and ID's of related courses
 def fetchCourse(coid):
-    url = f"http://catalog.blueridgectc.edu/ajax/preview_course.php?catoid={CATOID}&coid={coid}&show"
-    soup = getSoup(url, f"{coid}fetchcourse")
+    soup = getSoup(coid)
 
     # Get course name
     h3_elements = soup.find_all('h3')
@@ -117,6 +119,7 @@ def fetchCourse(coid):
     # Get reqs
     req = getReqs(soup)
 
+    # Get course description
     description = getDesc(soup)
 
     return name, req, description
