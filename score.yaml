@@ -1,0 +1,42 @@
+# FIXME better way to do this?
+# The names of these need to EXACTLY match what is shown on the course catalog (except case). Very stupid, I know.
+math:
+  math 207:
+    act: 28
+    sat: 660
+
+  math 108:
+    act: 24
+    sat: 580
+
+  math 106:
+    act: 24
+    sat: 580
+
+  math 105:
+    act: 21
+    sat: 530
+
+  math 154:
+    act: 20
+    sat: 520
+
+  math 114:
+    act: 20
+    sat: 520
+
+  math 102:
+    act: 19
+    sat: 510
+
+  math 101:
+    act: 19
+    sat: 510
+
+  math 100a:
+    act: 18
+    sat: 500
+
+  math 100:
+    act: 0
+    sat: 0
