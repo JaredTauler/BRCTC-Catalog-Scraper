@@ -34,14 +34,14 @@ with db_session:
 
     id_ = md.Program.select().where(poid=1608).fetch()[0].id
 
-import webapp.app.helper as help
+import helper as help
 
 gp = help.getProgram(id_)
 with db_session:
     # print(md.CoreCourse.select().fetch())
     for i in md.CoreCourse.select().fetch():
         # if i.id > 6 and i.id < 11:
-            name = i.course.name
+            name = i.getName()
             if name:
                 print(name)
             _or = [i.id for i in i.or_]

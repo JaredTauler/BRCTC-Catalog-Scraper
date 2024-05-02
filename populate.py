@@ -10,39 +10,6 @@ def setToList(set, callback=None):
     e = set.order_by(1).fetch()
     return e
 
-
-# def transform_data(data):
-#     # Create a dictionary to store the merged 'and' and 'or' lists
-#     merged = {}
-#
-#     # Iterate through each key in the original data dictionary
-#     for key in data:
-#         # Initialize the merged lists for 'and' and 'or'
-#         merged_and = []
-#         merged_or = []
-#
-#         # Check if the 'and' key exists in the current key's dictionary
-#         if 'and' in data[key]:
-#             # Add all elements from the 'and' list to the merged 'and' list
-#             merged_and.extend(data[key]['and'])
-#
-#         # Check if the 'or' key exists in the current key's dictionary
-#         if 'or' in data[key]:
-#             # Add all elements from the 'or' list to the merged 'or' list
-#             merged_or.extend(data[key]['or'])
-#
-#         # Iterate through the merged 'and' list
-#         for item in merged_and:
-#             # If the item is not already in the merged 'or' list, add it
-#             if item not in merged_or:
-#                 merged_or.append(item)
-#
-#         # Update the merged dictionary with the merged 'and' and 'or' lists
-#         merged[key] = {'and': merged_and, 'or': merged_or}
-#
-#     return merged
-
-
 @db_session
 def populateProgramList():
     for poid, name in sr.fetchPrograms():
@@ -71,7 +38,7 @@ def processReq(r, the_course):
             if req_coid in req_data['poid']:
                 # FIXME SUPER DUPER HOTFIX AAAAAA (program req)
                 new_req = md.Requisite(
-                    coid=req_coid,
+                    # coid=req_coid,
                     course=the_course,
                     # req_course=getCourse(req_coid),
                     req_program=getProgram(req_coid),
@@ -79,7 +46,7 @@ def processReq(r, the_course):
                 )
             else:
                 new_req = md.Requisite(
-                    coid=req_coid,
+                    # coid=req_coid,
                     course=the_course,
                     req_course=getCourse(req_coid),
                     type_=req_type
