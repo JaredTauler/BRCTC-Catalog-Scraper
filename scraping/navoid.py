@@ -1,32 +1,21 @@
 from .common import getSoup
 
 
-from bs4 import BeautifulSoup
-import requests
-
-def fetchPrograms():
+def fetchNAVOID():
     """
      Acquire NAVOID
 
-    # :return: poid, name
+    :return: NAVOID id
+    :rtype: str
     """
     url = f"http://catalog.blueridgectc.edu/"
 
-    soup = getSoup(url, "program")
-    nav = soup.find_all(id="acalog-navigation")
+    soup = getSoup(url, "navoid")
+    nav = soup.find_all(id="acalog-navigation")[0]
 
-    # found_programs = []
-    # # Programs
-    # for program_list in program_lists:
-    #     # Extract the <a> tags within each <ul>
-    #     links = program_list.find_all('a')
-    #
-    #     for link in links:
-    #         # Extract 'poid' from the href attribute
-    #         href = link.get('href')
-    #         poid = href.split('poid=')[1].split('&')[0] if 'poid=' in href else None
-    #
-    #         # Extract class name
-    #         name = link.text.strip()
-    #
-    #         yield poid, name
+    # check for the text program in each nav element
+    for element in nav:
+        if "program" in element.text.lower():
+            a = element.find("a")
+            navoid = a.attrs['href'][-3:]
+            return navoid
