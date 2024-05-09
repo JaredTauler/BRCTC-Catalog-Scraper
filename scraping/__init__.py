@@ -1,4 +1,4 @@
-from .corelist import fetchCores, fetchCore
+from .corelist import fetchCores
 from .course import fetchCourse
 from .programlist import fetchPrograms
 from .navoid import fetchNAVOID

@@ -1,6 +1,6 @@
 import unittest
 from scraping.programlist import fetchPrograms
-
+from common import is_string_empty
 
 class Test_fetchPrograms(unittest.TestCase):
     def setUp(self) -> None:
@@ -28,7 +28,7 @@ class Test_fetchPrograms(unittest.TestCase):
 
             # Name
             self.assertFalse(
-                name.isspace(),
+                is_string_empty(name),
                 f"Expected name to not be blank."
             )
 

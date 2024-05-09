@@ -11,7 +11,7 @@ CATOID = 23 # FIXME future proof
 # Navigation element belonging to "Academic Programs"
 NAVOID = 622 # FIXME futureproof navoid, this changes every year too.
 
-# Get a soup to do operations on, from a URL.
+# Get a list_of_core_soup to do operations on, from a URL.
 # def getSoup(url):
 #     time.sleep(WAIT_TIME) # FIXME add wait time to prevent being blocked
 #     print("OUT")

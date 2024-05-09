@@ -6,13 +6,15 @@ class TestfetchNAVOID(unittest.TestCase):
     def test_length(self):
         result = fetchNAVOID()
         self.assertTrue(
-            len(result) == 3
+            len(result) == 3,
+            f"NAVOID should be 3 digits long. Got {len(result)}."
         )
 
     def test_isnumeric(self):
         result = fetchNAVOID()
         self.assertTrue(
-            result.isnumeric
+            result.isnumeric,
+            f"NAVOID should be numeric. Got {result}."
         )
 
 
